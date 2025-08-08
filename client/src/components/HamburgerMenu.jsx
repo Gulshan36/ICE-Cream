@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const HamburgerMenu = () => {
-  const [open, setOpen] = useState(false);
+const HamburgerMenu = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const menuItems = [
@@ -24,44 +23,32 @@ const HamburgerMenu = () => {
 
   const handleNavigation = (path) => {
     navigate(path);
-    setOpen(false);
+    onClose();
   };
 
   return (
     <>
-      {/* Menu Toggle Button */}
-      <motion.button
-        className="fixed top-6 right-6 bg-gradient-to-r from-blue to-green1 text-white rounded-full w-14 h-14 flex items-center justify-center z-50 shadow-xl border-2 border-white/40"
-        onClick={() => setOpen(true)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        animate={{ rotate: open ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Bars3Icon className="w-7 h-7" />
-      </motion.button>
-
       {/* Backdrop */}
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div
             className="fixed inset-0 bg-black/50 z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
+            onClick={onClose}
           />
         )}
       </AnimatePresence>
 
       {/* Menu Panel */}
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div
-            className="fixed top-0 left-0 h-screen w-80 bg-white/95 backdrop-blur-xl rounded-r-3xl text-blue z-50 shadow-2xl border-r border-blue/20"
-            initial={{ x: "-100%" }}
+            className="fixed top-0 right-0 h-screen w-80 bg-white/95 backdrop-blur-xl rounded-l-3xl text-blue z-50 shadow-2xl border-l border-blue/20"
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
+            exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
           >
             {/* Header */}
@@ -75,7 +62,7 @@ const HamburgerMenu = () => {
                 <span className="text-xl font-bold">Namaste Bharat</span>
               </div>
               <button
-                onClick={() => setOpen(false)}
+                onClick={onClose}
                 className="p-2 hover:bg-blue/10 rounded-full transition-colors"
               >
                 <XMarkIcon className="w-6 h-6" />

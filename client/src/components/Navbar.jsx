@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ShoppingCartIcon, BellIcon } from "@heroicons/react/24/outline";
-import { useCart } from "../context/CartContext";
-import logo from "../assets/logo.png";
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { BellIcon, ShoppingCartIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { useCart } from '../context/CartContext';
+import logo from '../assets/logo.png';
 
-const Navbar = ({ onCartClick }) => {
+const Navbar = ({ onCartClick, onMenuClick }) => {
   const [scrolled, setScrolled] = useState(false);
   const { cartItems } = useCart();
   
@@ -73,6 +73,15 @@ const Navbar = ({ onCartClick }) => {
               {totalItems}
             </motion.span>
           )}
+        </motion.button>
+
+        <motion.button
+          onClick={onMenuClick}
+          className="relative p-2 text-blue hover:text-green2 transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Bars3Icon className="w-6 h-6" />
         </motion.button>
       </div>
     </motion.nav>

@@ -20,6 +20,7 @@ import { CartProvider } from "./context/CartContext";
 function App() {
   const [loading, setLoading] = useState(true);
   const [cartOpen, setCartOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
@@ -34,8 +35,14 @@ function App() {
     <CartProvider>
       <Router>
         <div className="relative">
-          <Navbar onCartClick={() => setCartOpen(true)} />
-          <HamburgerMenu />
+          <Navbar 
+            onCartClick={() => setCartOpen(true)} 
+            onMenuClick={() => setMenuOpen(true)}
+          />
+          <HamburgerMenu 
+            isOpen={menuOpen} 
+            onClose={() => setMenuOpen(false)} 
+          />
           
           <AnimatePresence mode="wait">
             <Routes>
